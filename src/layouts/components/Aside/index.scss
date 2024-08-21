@@ -1,0 +1,29 @@
+.aside-box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: width 0.3s ease;
+  .el-scrollbar {
+    height: calc(100% - 55px);
+    .el-menu {
+      width: 100%;
+      overflow-x: hidden;
+      border-right: none;
+    }
+  }
+  .logo {
+    box-sizing: border-box;
+    height: 55px;
+    .logo-img {
+      width: 28px;
+      object-fit: contain;
+    }
+    .logo-text {
+      margin-left: 6px;
+      font-size: 21.5px;
+      font-weight: bold;
+      color: var(--el-aside-logo-text-color);
+      white-space: nowrap;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 <template>
   <el-drawer v-model="drawerVisible" title="布局设置" size="290px">
     <!-- 布局样式 -->
-    <el-divider class="divider" content-position="center">
+    <!-- <el-divider class="divider" content-position="center">
       <el-icon><Notification /></el-icon>
       布局样式
     </el-divider>
@@ -67,7 +67,7 @@
         </el-tooltip>
       </span>
       <el-switch v-model="headerInverted" @change="setHeaderTheme" />
-    </div>
+    </div> -->
 
     <!-- 全局主题 -->
     <el-divider class="divider" content-position="center">

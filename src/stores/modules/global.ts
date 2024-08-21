@@ -24,7 +24,7 @@ export const useGlobalStore = defineStore({
     // 色弱模式
     isWeak: false,
     // 侧边栏反转
-    asideInverted: false,
+    asideInverted: true,
     // 头部反转
     headerInverted: false,
     // 折叠菜单
