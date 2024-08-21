@@ -1,16 +1,12 @@
 {
-  "name": "geeker-admin",
+  "name": "homgar-admin-next",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.0.0",
   "type": "module",
-  "description": "geeker-admin open source management system",
-  "author": {
-    "name": "Geeker",
-    "email": "848130454@qq.com",
-    "url": "https://github.com/HalseySpicy"
-  },
+  "description": "homgar后台管理系统",
+  "author": "linwm",
   "license": "MIT",
-  "homepage": "https://github.com/HalseySpicy/Geeker-Admin",
+  "homepage": "",
   "repository": {
     "type": "git",
     "url": "git@github.com:HalseySpicy/Geeker-Admin.git"
