@@ -1,5 +1,5 @@
 import { defineConfig, loadEnv, ConfigEnv, UserConfig } from "vite";
-import { resolve } from "path";
+import { resolve, join } from "path";
 import { wrapperEnv } from "./build/getEnv";
 import { createProxy } from "./build/proxy";
 import { createVitePlugins } from "./build/plugins";
@@ -15,11 +15,15 @@ const __APP_INFO__ = {
 // @see: https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   const root = process.cwd();
-  const env = loadEnv(mode, root);
+  const envDir = join(process.cwd(), "env");
+  const env = loadEnv(mode, envDir);
   const viteEnv = wrapperEnv(env);
+  console.log("====", env);
+  console.log("-----", viteEnv);
 
   return {
-    base: viteEnv.VITE_PUBLIC_PATH,
+    envDir,
+    base: env.VITE_BASE_URL,
     root,
     resolve: {
       alias: {
@@ -38,12 +42,15 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       }
     },
     server: {
-      host: "0.0.0.0",
+      host: true,
       port: viteEnv.VITE_PORT,
       open: viteEnv.VITE_OPEN,
       cors: true,
       // Load proxy configuration from .env.development
-      proxy: createProxy(viteEnv.VITE_PROXY)
+      proxy: {
+        "/admin": env.VITE_API_URL,
+        "/auth": env.VITE_API_URL
+      }
     },
     plugins: createVitePlugins(viteEnv),
     esbuild: {
@@ -72,6 +79,18 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           entryFileNames: "assets/js/[name]-[hash].js",
           assetFileNames: "assets/[ext]/[name]-[hash].[ext]"
         }
+        // output: {
+        //   entryFileNames: chunkInfo => {
+        //     // 获取当前的文件路径
+        //     const path = chunkInfo.facadeModuleId;
+        //     // 提取目录名
+        //     const directoryName = path?.split("/").slice(-2, -1)[0];
+        //     // 使用目录名作为文件名
+        //     return `${directoryName}/[name].js`;
+        //   },
+        //   chunkFileNames: "assets/js/[name].[hash].js",
+        //   assetFileNames: "assets/[ext]/[name].[hash].[ext]"
+        // }
       }
     }
   };

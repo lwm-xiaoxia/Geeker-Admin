@@ -114,7 +114,14 @@ const columns = reactive<ColumnProps<User.ResUserList>[]>([
     enum: filterGenderEnum,
     search: {
       el: "select",
-      props: { placeholder: "请输入性别查询", filterable: true, remote: true, reserveKeyword: true, loading, remoteMethod }
+      props: {
+        placeholder: "请输入性别查询",
+        filterable: true,
+        remote: true,
+        reserveKeyword: true,
+        loading,
+        remoteMethod
+      }
     },
     render: scope => <>{scope.row.gender === 1 ? "男" : "女"}</>
   },
