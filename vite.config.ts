@@ -43,7 +43,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       host: true,
       port: viteEnv.VITE_PORT,
       open: viteEnv.VITE_OPEN,
-      cors: true,
+      // cors: true,
       // Load proxy configuration from .env.development
       proxy: {
         "/admin": viteEnv.VITE_API_URL,
@@ -69,7 +69,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       // 禁用 gzip 压缩大小报告，可略微减少打包时间
       reportCompressedSize: false,
       // 规定触发警告的 chunk 大小
-      chunkSizeWarningLimit: 2000,
+      chunkSizeWarningLimit: 200,
       rollupOptions: {
         output: {
           // Static resource classification and packaging
