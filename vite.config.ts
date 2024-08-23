@@ -17,13 +17,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   const root = process.cwd();
   const envDir = join(process.cwd(), "env");
   const env = loadEnv(mode, envDir);
-  const viteEnv = wrapperEnv(env);
-  console.log("====", env);
-  console.log("-----", viteEnv);
+  const viteEnv = wrapperEnv(env) as any;
 
   return {
     envDir,
-    base: env.VITE_BASE_URL,
+    base: viteEnv.VITE_BASE_URL,
     root,
     resolve: {
       alias: {
@@ -48,8 +46,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       cors: true,
       // Load proxy configuration from .env.development
       proxy: {
-        "/admin": env.VITE_API_URL,
-        "/auth": env.VITE_API_URL
+        "/admin": viteEnv.VITE_API_URL,
+        "/auth": viteEnv.VITE_API_URL
       }
     },
     plugins: createVitePlugins(viteEnv),

@@ -35,6 +35,7 @@ export namespace Login {
   export interface ReqLoginForm {
     account: string;
     password: string;
+    code: any;
   }
   export interface ResLogin {
     access_token: string;
