@@ -36,7 +36,7 @@
 import { ref, computed, nextTick, watch } from "vue";
 import { InputInstance } from "element-plus";
 import { Search } from "@element-plus/icons-vue";
-import { useAuthStore } from "@/stores/modules/auth";
+import { useAuthStore } from "@/store/modules/auth";
 import { useRouter } from "vue-router";
 import { useDebounceFn } from "@vueuse/core";
 

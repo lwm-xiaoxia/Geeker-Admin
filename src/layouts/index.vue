@@ -17,7 +17,7 @@
 
 <script setup lang="ts" name="layout">
 import { computed, reactive, watch } from "vue";
-import { useGlobalStore } from "@/stores/modules/global";
+import { useGlobalStore } from "@/store/modules/global";
 import ThemeDrawer from "./components/ThemeDrawer/index.vue";
 import Main from "./components/Main/index.vue";
 import ToolBarLeft from "./components/Header/ToolBarLeft.vue";

@@ -13,7 +13,7 @@
 <script setup lang="ts" name="authMenu">
 import { useRouter } from "vue-router";
 import { LOGIN_URL } from "@/config";
-import { useUserStore } from "@/stores/modules/user";
+import { useUserStore } from "@/store/modules/user";
 import { Promotion } from "@element-plus/icons-vue";
 
 const router = useRouter();

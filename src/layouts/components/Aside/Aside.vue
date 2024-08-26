@@ -21,8 +21,8 @@
 <script setup lang="ts" name="layoutVertical">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { useAuthStore } from "@/stores/modules/auth";
-import { useGlobalStore } from "@/stores/modules/global";
+import { useAuthStore } from "@/store/modules/auth";
+import { useGlobalStore } from "@/store/modules/global";
 import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
 
 const title = import.meta.env.VITE_GLOB_APP_TITLE;
