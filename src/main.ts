@@ -12,7 +12,7 @@ import "@/assets/fonts/font.scss";
 import "virtual:svg-icons-register";
 
 import setupDirective from "@/directives";
-import { setupRouter } from "@/router";
+import setupRouter from "@/router";
 import setupI18n from "@/languages";
 import setupStore from "@/store";
 import setLibs from "@/libs";

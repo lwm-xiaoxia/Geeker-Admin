@@ -7,7 +7,7 @@ import { ResultEnum } from "@/enums/httpEnum";
 import { checkStatus } from "./helper/checkStatus";
 import { AxiosCanceler } from "./helper/axiosCancel";
 import { useUserStore } from "@/store/modules/user";
-import router from "@/router";
+import { router } from "@/router";
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   loading?: boolean;

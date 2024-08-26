@@ -1,4 +1,4 @@
-import router from "@/router";
+import { router } from "@/router";
 import { defineStore } from "pinia";
 import { getUrlWithParams } from "@/utils";
 import { useKeepAliveStore } from "./keepAlive";
