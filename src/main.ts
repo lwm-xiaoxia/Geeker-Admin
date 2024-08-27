@@ -1,17 +1,13 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import "@/assets/style/init.scss";
-// reset style sheet
 import "@/styles/reset.scss";
-// CSS common style sheet
 import "@/styles/common.scss";
-// iconfont css
+import "@/assets/style/init.scss";
 import "@/assets/iconfont/iconfont.scss";
-// font css
 import "@/assets/fonts/font.scss";
 import "virtual:svg-icons-register";
 
-import setupDirective from "@/directives";
+import setupDirectives from "@/directives";
 import setupRouter from "@/router";
 import setupI18n from "@/languages";
 import setupStore from "@/store";
@@ -26,7 +22,7 @@ const setupApp = async () => {
 
   setupStore(app);
 
-  setupDirective(app);
+  setupDirectives(app);
 
   setupI18n(app);
 
