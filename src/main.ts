@@ -16,7 +16,7 @@ import errorHandler from "@/utils/errorHandler";
 
 const setupApp = async () => {
   const app = createApp(App);
-  app.config.errorHandler = errorHandler;
+  // app.config.errorHandler = errorHandler;
 
   setupRouter(app);
 

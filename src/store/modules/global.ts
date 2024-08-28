@@ -17,6 +17,7 @@ export const useGlobalStore = defineStore({
     maximize: false,
     // 主题颜色
     primary: DEFAULT_PRIMARY,
+
     // 深色模式
     isDark: false,
     // 灰色模式
@@ -42,13 +43,20 @@ export const useGlobalStore = defineStore({
     // 标签页图标
     tabsIcon: true,
     // 页脚
-    footer: true
+    footer: true,
+    languageObj: {
+      language: "",
+      isLoad: false
+    }
   }),
   getters: {},
   actions: {
     // Set GlobalState
     setGlobalState(...args: ObjToKeyValArray<GlobalState>) {
       this.$patch({ [args[0]]: args[1] });
+    },
+    setLanguageLoad(isLoad: boolean) {
+      this.languageObj.isLoad = isLoad;
     }
   },
   persist: piniaPersistConfig("geeker-global")

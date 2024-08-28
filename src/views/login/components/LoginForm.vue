@@ -1,4 +1,5 @@
 <template>
+  <el-button @click="onSwitch">切换</el-button>
   <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" size="large">
     <el-form-item prop="account">
       <el-input v-model="loginForm.account" placeholder="用户名：admin / user">
@@ -20,9 +21,9 @@
     </el-form-item>
   </el-form>
   <div class="login-btn">
-    <el-button :icon="CircleClose" round size="large" @click="resetForm(loginFormRef)"> 重置 </el-button>
+    <el-button :icon="CircleClose" round size="large" @click="resetForm(loginFormRef)"> {{ $t("login.reset") }} </el-button>
     <el-button :icon="UserFilled" round size="large" type="primary" :loading="loading" @click="login(loginFormRef)">
-      登录
+      {{ $t("login.login") }}
     </el-button>
   </div>
 </template>
@@ -30,6 +31,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 import { HOME_URL } from "@/config";
 // import { getTimeState } from "@/utils";
 import { Login } from "@/api/interface";
@@ -37,10 +39,12 @@ import { ElNotification } from "element-plus";
 import { loginApi } from "@/api/modules/login";
 import { useUserStore } from "@/store/modules/user";
 import { useTabsStore } from "@/store/modules/tabs";
+import { useGlobalStore } from "@/store/modules/global";
 import { useKeepAliveStore } from "@/store/modules/keepAlive";
 import { initDynamicRouter } from "@/router/modules/dynamicRouter";
 import { CircleClose, UserFilled } from "@element-plus/icons-vue";
 import type { ElForm } from "element-plus";
+import { switchLangData } from "@/languages";
 import md5 from "md5";
 
 const router = useRouter();
@@ -58,8 +62,7 @@ const loginRules = reactive({
 const loading = ref(false);
 const loginForm = reactive<Login.ReqLoginForm>({
   account: "",
-  password: "",
-  code: "1234"
+  password: ""
 });
 
 // login
@@ -120,6 +123,13 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.onkeydown = null;
 });
+
+const onSwitch = () => {
+  const globalStore = useGlobalStore();
+  const language = globalStore.language === "zh" ? "en" : "zh";
+  globalStore.setGlobalState("language", language);
+  switchLangData(language);
+};
 </script>
 
 <style scoped lang="scss">
