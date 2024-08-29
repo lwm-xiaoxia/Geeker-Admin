@@ -3,7 +3,12 @@
     <div class="card top-box">
       <div class="top-title">数据可视化</div>
       <el-tabs v-model="tabActive" class="demo-tabs">
-        <el-tab-pane v-for="item in tab" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
+        <el-tab-pane
+          v-for="item in tab"
+          :key="item.name"
+          :label="item.label"
+          :name="item.name"
+        ></el-tab-pane>
       </el-tabs>
       <div class="top-content">
         <el-row :gutter="40">
@@ -63,7 +68,12 @@
       <div class="bottom-title">数据来源</div>
       <div class="bottom-tabs">
         <el-tabs v-model="tabActive" class="demo-tabs">
-          <el-tab-pane v-for="item in tab" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
+          <el-tab-pane
+            v-for="item in tab"
+            :key="item.name"
+            :label="item.label"
+            :name="item.name"
+          ></el-tab-pane>
         </el-tabs>
       </div>
       <div class="curve-echarts">
@@ -74,22 +84,22 @@
 </template>
 
 <script setup lang="ts" name="dataVisualize">
-import { ref } from "vue";
-import Pie from "./components/pie.vue";
-import Curve from "./components/curve.vue";
+import { ref } from 'vue';
+import Pie from './components/pie.vue';
+import Curve from './components/curve.vue';
 
 const tabActive = ref(1);
 
 const tab = [
-  { label: "未来7日", name: 1 },
-  { label: "近七日", name: 2 },
-  { label: "近一月", name: 3 },
-  { label: "近三月", name: 4 },
-  { label: "近半年", name: 5 },
-  { label: "近一年", name: 6 }
+  { label: '未来7日', name: 1 },
+  { label: '近七日', name: 2 },
+  { label: '近一月', name: 3 },
+  { label: '近三月', name: 4 },
+  { label: '近半年', name: 5 },
+  { label: '近一年', name: 6 }
 ];
 </script>
 
 <style scoped lang="scss">
-@import "./index.scss";
+@import './index.scss';
 </style>

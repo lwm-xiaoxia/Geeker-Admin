@@ -5,11 +5,11 @@
 </template>
 
 <script setup lang="ts">
-import { useGlobalStore } from "@/store/modules/global";
+import { useGlobalStore } from '@/store/modules/global';
 
 const globalStore = useGlobalStore();
 const exitMaximize = () => {
-  globalStore.setGlobalState("maximize", false);
+  globalStore.setGlobalState('maximize', false);
 };
 </script>
 

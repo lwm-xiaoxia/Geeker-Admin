@@ -1,17 +1,22 @@
-import { CustomAxiosRequestConfig } from "../interface";
-import qs from "qs";
+import { CustomAxiosRequestConfig } from '../interface';
+import qs from 'qs';
 
 // 声明一个 Map 用于存储每个请求的标识和取消函数
 let pendingMap = new Map<string, AbortController>();
 
 // 序列化参数，确保对象属性顺序一致
 const sortedStringify = (obj: any) => {
-  return qs.stringify(obj, { arrayFormat: "repeat", sort: (a, b) => a.localeCompare(b) });
+  return qs.stringify(obj, { arrayFormat: 'repeat', sort: (a, b) => a.localeCompare(b) });
 };
 
 // 获取请求的唯一标识
 export const getPendingUrl = (config: CustomAxiosRequestConfig) => {
-  return [config.method, config.url, sortedStringify(config.data), sortedStringify(config.params)].join("&");
+  return [
+    config.method,
+    config.url,
+    sortedStringify(config.data),
+    sortedStringify(config.params)
+  ].join('&');
 };
 
 export class AxiosCanceler {

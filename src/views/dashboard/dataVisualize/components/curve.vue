@@ -5,27 +5,27 @@
 </template>
 
 <script setup lang="ts" name="cure">
-import { ECOption } from "@/components/ECharts/config";
-import ECharts from "@/components/ECharts/index.vue";
+import { ECOption } from '@/components/ECharts/config';
+import ECharts from '@/components/ECharts/index.vue';
 
 const curveData = [
-  { value: 30, spotName: "掘金" },
-  { value: 90, spotName: "CSDN" },
-  { value: 10, spotName: "Gitee" },
-  { value: 70, spotName: "GitHub" },
-  { value: 20, spotName: "知乎" },
-  { value: 60, spotName: "MyBlog" },
-  { value: 55, spotName: "简书" },
-  { value: 80, spotName: "StackOverFlow" },
-  { value: 50, spotName: "博客园" }
+  { value: 30, spotName: '掘金' },
+  { value: 90, spotName: 'CSDN' },
+  { value: 10, spotName: 'Gitee' },
+  { value: 70, spotName: 'GitHub' },
+  { value: 20, spotName: '知乎' },
+  { value: 60, spotName: 'MyBlog' },
+  { value: 55, spotName: '简书' },
+  { value: 80, spotName: 'StackOverFlow' },
+  { value: 50, spotName: '博客园' }
 ];
 
 const option: ECOption = {
   tooltip: {
-    trigger: "axis",
-    backgroundColor: "transparent",
+    trigger: 'axis',
+    backgroundColor: 'transparent',
     axisPointer: {
-      type: "none"
+      type: 'none'
     },
     padding: 0,
     formatter: (p: any) => {
@@ -39,11 +39,11 @@ const option: ECOption = {
   },
   toolbox: {
     show: true,
-    orient: "horizontal"
+    orient: 'horizontal'
   },
   grid: {
-    left: "0",
-    right: "0"
+    left: '0',
+    right: '0'
   },
   dataZoom: [
     {
@@ -54,14 +54,14 @@ const option: ECOption = {
       startValue: 0,
       endValue: 9,
       handleStyle: {
-        color: "#6b9dfe"
+        color: '#6b9dfe'
       },
       textStyle: {
-        color: "transparent"
+        color: 'transparent'
       }
     },
     {
-      type: "inside",
+      type: 'inside',
       show: true,
       height: 0,
       zoomLock: true
@@ -69,7 +69,7 @@ const option: ECOption = {
   ],
   xAxis: [
     {
-      type: "category",
+      type: 'category',
       data: curveData.map((val: any) => {
         return {
           value: val.spotName
@@ -81,16 +81,16 @@ const option: ECOption = {
       axisLabel: {
         margin: 20,
         interval: 0,
-        color: "#a1a1a1",
+        color: '#a1a1a1',
         fontSize: 14,
         formatter: function (name: string) {
           undefined;
-          return name.length > 8 ? name.slice(0, 8) + "..." : name;
+          return name.length > 8 ? name.slice(0, 8) + '...' : name;
         }
       },
       axisLine: {
         lineStyle: {
-          color: "#c0c0c0"
+          color: '#c0c0c0'
         }
       }
     }
@@ -107,41 +107,41 @@ const option: ECOption = {
       splitLine: {
         show: true,
         lineStyle: {
-          color: "#c0c0c0"
+          color: '#c0c0c0'
         }
       },
       axisLabel: {
-        color: "#a1a1a1",
+        color: '#a1a1a1',
         fontSize: 16,
         fontWeight: 400,
         formatter: function (value: number) {
           if (value === 0) {
-            return value + "";
+            return value + '';
           } else if (value >= 10000) {
-            return value / 10000 + "w";
+            return value / 10000 + 'w';
           }
-          return value + "";
+          return value + '';
         }
       }
     }
   ],
   series: [
     {
-      name: "Direct",
-      type: "bar",
+      name: 'Direct',
+      type: 'bar',
       data: curveData.map((val: any) => {
         return {
           value: val.value
         };
       }),
-      barWidth: "45px",
+      barWidth: '45px',
       itemStyle: {
-        color: "#C5D8FF",
+        color: '#C5D8FF',
         borderRadius: [12, 12, 0, 0]
       },
       emphasis: {
         itemStyle: {
-          color: "#6B9DFE"
+          color: '#6B9DFE'
         }
       }
     }

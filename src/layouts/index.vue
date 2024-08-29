@@ -1,6 +1,10 @@
 <!-- 💥 这里是一次性加载 LayoutComponents -->
 <template>
-  <el-watermark id="watermark" :font="font" :content="watermark ? ['Geeker Admin', 'Happy Working'] : ''">
+  <el-watermark
+    id="watermark"
+    :font="font"
+    :content="watermark ? ['Geeker Admin', 'Happy Working'] : ''"
+  >
     <el-container class="layout">
       <el-aside><Aside /></el-aside>
       <el-container>
@@ -16,23 +20,27 @@
 </template>
 
 <script setup lang="ts" name="layout">
-import { computed, reactive, watch } from "vue";
-import { useGlobalStore } from "@/store/modules/global";
-import ThemeDrawer from "./components/ThemeDrawer/index.vue";
-import Main from "./components/Main/index.vue";
-import ToolBarLeft from "./components/Header/ToolBarLeft.vue";
-import ToolBarRight from "./components/Header/ToolBarRight.vue";
-import Aside from "./components/Aside/Aside.vue";
+import { computed, reactive, watch } from 'vue';
+import { useGlobalStore } from '@/store/modules/global';
+import ThemeDrawer from './components/ThemeDrawer/index.vue';
+import Main from './components/Main/index.vue';
+import ToolBarLeft from './components/Header/ToolBarLeft.vue';
+import ToolBarRight from './components/Header/ToolBarRight.vue';
+import Aside from './components/Aside/Aside.vue';
 
 const globalStore = useGlobalStore();
 
 const isDark = computed(() => globalStore.isDark);
 const watermark = computed(() => globalStore.watermark);
 
-const font = reactive({ color: "rgba(0, 0, 0, .15)" });
-watch(isDark, () => (font.color = isDark.value ? "rgba(255, 255, 255, .15)" : "rgba(0, 0, 0, .15)"), {
-  immediate: true
-});
+const font = reactive({ color: 'rgba(0, 0, 0, .15)' });
+watch(
+  isDark,
+  () => (font.color = isDark.value ? 'rgba(255, 255, 255, .15)' : 'rgba(0, 0, 0, .15)'),
+  {
+    immediate: true
+  }
+);
 </script>
 
 <style scoped lang="scss">

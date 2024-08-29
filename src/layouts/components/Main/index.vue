@@ -5,7 +5,11 @@
     <router-view v-slot="{ Component, route }">
       <transition appear name="fade-transform" mode="out-in">
         <keep-alive :include="keepAliveName">
-          <component :is="createComponentWrapper(Component, route)" v-if="isRouterShow" :key="route.fullPath" />
+          <component
+            :is="createComponentWrapper(Component, route)"
+            v-if="isRouterShow"
+            :key="route.fullPath"
+          />
         </keep-alive>
       </transition>
     </router-view>
@@ -13,13 +17,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount, provide, watch, h } from "vue";
-import { storeToRefs } from "pinia";
-import { useDebounceFn } from "@vueuse/core";
-import { useGlobalStore } from "@/store/modules/global";
-import { useKeepAliveStore } from "@/store/modules/keepAlive";
-import Maximize from "./components/Maximize.vue";
-import Tabs from "@/layouts/components/Tabs/index.vue";
+import { ref, onBeforeUnmount, provide, watch, h } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useDebounceFn } from '@vueuse/core';
+import { useGlobalStore } from '@/store/modules/global';
+import { useKeepAliveStore } from '@/store/modules/keepAlive';
+import Maximize from './components/Maximize.vue';
+import Tabs from '@/layouts/components/Tabs/index.vue';
 
 const globalStore = useGlobalStore();
 const { maximize, isCollapse, layout, tabs } = storeToRefs(globalStore);
@@ -30,7 +34,7 @@ const { keepAliveName } = storeToRefs(keepAliveStore);
 // 注入刷新页面方法
 const isRouterShow = ref(true);
 const refreshCurrentPage = (val: boolean) => (isRouterShow.value = val);
-provide("refresh", refreshCurrentPage);
+provide('refresh', refreshCurrentPage);
 
 // 解决详情页 keep-alive 问题
 const wrapperMap = new Map();
@@ -49,9 +53,9 @@ function createComponentWrapper(component, route) {
 watch(
   () => maximize.value,
   () => {
-    const app = document.getElementById("app") as HTMLElement;
-    if (maximize.value) app.classList.add("main-maximize");
-    else app.classList.remove("main-maximize");
+    const app = document.getElementById('app') as HTMLElement;
+    if (maximize.value) app.classList.add('main-maximize');
+    else app.classList.remove('main-maximize');
   },
   { immediate: true }
 );
@@ -61,7 +65,7 @@ watch(
   () => layout.value,
   () => {
     const body = document.body as HTMLElement;
-    body.setAttribute("class", layout.value);
+    body.setAttribute('class', layout.value);
   },
   { immediate: true }
 );
@@ -70,15 +74,15 @@ watch(
 const screenWidth = ref(0);
 const listeningWindow = useDebounceFn(() => {
   screenWidth.value = document.body.clientWidth;
-  if (!isCollapse.value && screenWidth.value < 1200) globalStore.setGlobalState("isCollapse", true);
-  if (isCollapse.value && screenWidth.value > 1200) globalStore.setGlobalState("isCollapse", false);
+  if (!isCollapse.value && screenWidth.value < 1200) globalStore.setGlobalState('isCollapse', true);
+  if (isCollapse.value && screenWidth.value > 1200) globalStore.setGlobalState('isCollapse', false);
 }, 100);
-window.addEventListener("resize", listeningWindow, false);
+window.addEventListener('resize', listeningWindow, false);
 onBeforeUnmount(() => {
-  window.removeEventListener("resize", listeningWindow);
+  window.removeEventListener('resize', listeningWindow);
 });
 </script>
 
 <style scoped lang="scss">
-@import "./index.scss";
+@import './index.scss';
 </style>

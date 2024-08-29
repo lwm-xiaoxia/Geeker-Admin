@@ -1,4 +1,4 @@
-export type LanguageType = "zh" | "en";
+export type LanguageType = 'zh' | 'en';
 
 /* GlobalState */
 export interface GlobalState {

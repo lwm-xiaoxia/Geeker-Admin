@@ -1,11 +1,11 @@
-import { defineStore } from "pinia";
-import { getBrowserLang } from "@/utils";
-import { GlobalState } from "@/store/interface";
-import { DEFAULT_PRIMARY } from "@/config";
-import piniaPersistConfig from "@/store/helper/persist";
+import { defineStore } from 'pinia';
+import { getBrowserLang } from '@/utils';
+import { GlobalState } from '@/store/interface';
+import { DEFAULT_PRIMARY } from '@/config';
+import piniaPersistConfig from '@/store/helper/persist';
 
 export const useGlobalStore = defineStore({
-  id: "global",
+  id: 'global',
   // 修改默认值之后，需清除 localStorage 数据
   state: (): GlobalState => ({
     // 当前系统语言
@@ -36,7 +36,7 @@ export const useGlobalStore = defineStore({
     // 标签页图标
     tabsIcon: true,
     languageObj: {
-      language: "",
+      language: '',
       isLoad: false
     }
   }),
@@ -49,5 +49,5 @@ export const useGlobalStore = defineStore({
       this.languageObj.isLoad = isLoad;
     }
   },
-  persist: piniaPersistConfig("global")
+  persist: piniaPersistConfig('global')
 });

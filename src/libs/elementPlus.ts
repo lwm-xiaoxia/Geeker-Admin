@@ -1,10 +1,10 @@
-import type { App } from "vue";
-import "element-plus/dist/index.css";
-import "element-plus/theme-chalk/dark/css-vars.css";
-import "@/styles/element-dark.scss";
-import "@/styles/element.scss";
-import ElementPlus from "element-plus";
-import * as Icons from "@element-plus/icons-vue";
+import type { App } from 'vue';
+import 'element-plus/dist/index.css';
+import 'element-plus/theme-chalk/dark/css-vars.css';
+import '@/styles/element-dark.scss';
+import '@/styles/element.scss';
+import ElementPlus from 'element-plus';
+import * as Icons from '@element-plus/icons-vue';
 
 export default function setupElementPlus(app: App<Element>) {
   Object.keys(Icons).forEach(key => {

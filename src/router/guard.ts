@@ -1,9 +1,9 @@
-import { type Router } from "vue-router";
-import { useUserStore } from "@/store/modules/user";
-import { useAuthStore } from "@/store/modules/auth";
-import { LOGIN_URL, ROUTER_WHITE_LIST } from "@/config";
-import { initDynamicRouter } from "@/router/modules/dynamicRouter";
-import NProgress from "@/libs/nprogress";
+import { type Router } from 'vue-router';
+import { useUserStore } from '@/store/modules/user';
+import { useAuthStore } from '@/store/modules/auth';
+import { LOGIN_URL, ROUTER_WHITE_LIST } from '@/config';
+import { initDynamicRouter } from '@/router/modules/dynamicRouter';
+import NProgress from '@/libs/nprogress';
 
 export default function createGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
@@ -58,7 +58,7 @@ export default function createGuard(router: Router) {
    * */
   router.onError(error => {
     NProgress.done();
-    console.warn("路由错误", error.message);
+    console.warn('路由错误', error.message);
   });
 
   /**

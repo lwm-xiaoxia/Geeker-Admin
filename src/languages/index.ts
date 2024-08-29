@@ -1,8 +1,8 @@
-import type { App } from "vue";
-import { createI18n } from "vue-i18n";
-import { useGlobalStore } from "@/store/modules/global";
-import type { LanguageType } from "@/store/interface";
-import { getLocal, fetchLangData } from "./helper/fetch-data";
+import type { App } from 'vue';
+import { createI18n } from 'vue-i18n';
+import { useGlobalStore } from '@/store/modules/global';
+import type { LanguageType } from '@/store/interface';
+import { getLocal, fetchLangData } from './helper/fetch-data';
 
 export const i18n = createI18n({
   allowComposition: true,

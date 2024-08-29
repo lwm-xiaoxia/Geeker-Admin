@@ -2,7 +2,13 @@
   <div class="tabs-box">
     <div class="tabs-menu">
       <el-tabs v-model="tabsMenuValue" type="card" @tab-click="tabClick" @tab-remove="tabRemove">
-        <el-tab-pane v-for="item in tabsMenuList" :key="item.path" :label="item.title" :name="item.path" :closable="item.close">
+        <el-tab-pane
+          v-for="item in tabsMenuList"
+          :key="item.path"
+          :label="item.title"
+          :name="item.path"
+          :closable="item.close"
+        >
           <template #label>
             <el-icon v-if="item.icon && tabsIcon" class="tabs-icon">
               <component :is="item.icon"></component>
@@ -17,14 +23,14 @@
 </template>
 
 <script setup lang="ts">
-import Sortable from "sortablejs";
-import { ref, computed, watch, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useGlobalStore } from "@/store/modules/global";
-import { useTabsStore } from "@/store/modules/tabs";
-import { useAuthStore } from "@/store/modules/auth";
-import { TabsPaneContext, TabPaneName } from "element-plus";
-import MoreButton from "./components/MoreButton.vue";
+import Sortable from 'sortablejs';
+import { ref, computed, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useGlobalStore } from '@/store/modules/global';
+import { useTabsStore } from '@/store/modules/tabs';
+import { useAuthStore } from '@/store/modules/auth';
+import { TabsPaneContext, TabPaneName } from 'element-plus';
+import MoreButton from './components/MoreButton.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -79,8 +85,8 @@ const initTabs = () => {
 
 // tabs 拖拽排序
 const tabsDrop = () => {
-  Sortable.create(document.querySelector(".el-tabs__nav") as HTMLElement, {
-    draggable: ".el-tabs__item",
+  Sortable.create(document.querySelector('.el-tabs__nav') as HTMLElement, {
+    draggable: '.el-tabs__item',
     animation: 300,
     onEnd({ newIndex, oldIndex }) {
       const tabsList = [...tabStore.tabsMenuList];
@@ -104,5 +110,5 @@ const tabRemove = (fullPath: TabPaneName) => {
 </script>
 
 <style scoped lang="scss">
-@import "./index.scss";
+@import './index.scss';
 </style>

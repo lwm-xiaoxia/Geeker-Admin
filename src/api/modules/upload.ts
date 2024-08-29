@@ -1,5 +1,5 @@
-import { Upload } from "@/api/interface/index";
-import http from "@/api";
+import { Upload } from '@/api/interface/index';
+import http from '@/api';
 
 /**
  * @name 文件上传模块

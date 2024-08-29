@@ -1,137 +1,121 @@
 <template>
-  <el-button @click="onSwitch">切换</el-button>
-  <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" size="large">
+  <el-form ref="formRef" :model="formValue" :rules="formRules" size="large">
     <el-form-item prop="account">
-      <el-input v-model="loginForm.account" placeholder="用户名：admin / user">
-        <template #prefix>
-          <el-icon class="el-input__icon">
-            <user />
-          </el-icon>
-        </template>
-      </el-input>
+      <el-input v-model="formValue.account" prefix-icon="user" placeholder="用户名" />
     </el-form-item>
     <el-form-item prop="password">
-      <el-input v-model="loginForm.password" type="password" placeholder="密码：123456" show-password autocomplete="new-password">
-        <template #prefix>
-          <el-icon class="el-input__icon">
-            <lock />
-          </el-icon>
-        </template>
+      <el-input
+        v-model="formValue.password"
+        prefix-icon="lock"
+        type="password"
+        placeholder="密码"
+        show-password
+        autocomplete="new-password"
+      >
       </el-input>
     </el-form-item>
   </el-form>
   <div class="login-btn">
-    <el-button :icon="CircleClose" round size="large" @click="resetForm(loginFormRef)"> {{ $t("login.reset") }} </el-button>
-    <el-button :icon="UserFilled" round size="large" type="primary" :loading="loading" @click="login(loginFormRef)">
-      {{ $t("login.login") }}
+    <el-button :icon="CircleClose" round size="large" @click="onReset">
+      {{ $t('login.reset') }}
+    </el-button>
+    <el-button
+      :icon="UserFilled"
+      round
+      size="large"
+      type="primary"
+      :loading="isLoad"
+      @click="onLogin"
+    >
+      {{ $t('login.login') }}
     </el-button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onBeforeUnmount } from "vue";
-import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
-import { HOME_URL } from "@/config";
-// import { getTimeState } from "@/utils";
-import { Login } from "@/api/interface";
-import { ElNotification } from "element-plus";
-import { loginApi } from "@/api/modules/login";
-import { useUserStore } from "@/store/modules/user";
-import { useTabsStore } from "@/store/modules/tabs";
-import { useGlobalStore } from "@/store/modules/global";
-import { useKeepAliveStore } from "@/store/modules/keepAlive";
-import { initDynamicRouter } from "@/router/modules/dynamicRouter";
-import { CircleClose, UserFilled } from "@element-plus/icons-vue";
-import type { ElForm } from "element-plus";
-import { switchLangData } from "@/languages";
-import md5 from "md5";
+import { ref, reactive, readonly, onMounted, onBeforeUnmount } from 'vue';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { GLOBAL__CONFIG } from '@/constants/config';
+import { ElNotification } from 'element-plus';
+import { loginApi } from '@/api/modules/login';
+import { useUserStore } from '@/store/modules/user';
+import { useTabsStore } from '@/store/modules/tabs';
+import { useGlobalStore } from '@/store/modules/global';
+import { useKeepAliveStore } from '@/store/modules/keepAlive';
+import { initDynamicRouter } from '@/router/modules/dynamicRouter';
+import { CircleClose, UserFilled } from '@element-plus/icons-vue';
+import type { ElForm } from 'element-plus';
+// import md5 from "md5";
+type FormInstance = InstanceType<typeof ElForm>;
 
 const router = useRouter();
-const userStore = useUserStore();
-const tabsStore = useTabsStore();
-const keepAliveStore = useKeepAliveStore();
+useKeydownSub();
+const { formValue, formRef, formRules, onReset } = useLoginForm();
 
-type FormInstance = InstanceType<typeof ElForm>;
-const loginFormRef = ref<FormInstance>();
-const loginRules = reactive({
-  account: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-  password: [{ required: true, message: "请输入密码", trigger: "blur" }]
-});
-
-const loading = ref(false);
-const loginForm = reactive<Login.ReqLoginForm>({
-  account: "",
-  password: ""
-});
-
-// login
-const login = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.validate(async valid => {
+const isLoad = ref(false);
+const onLogin = () => {
+  formRef.value?.validate(async valid => {
     if (!valid) return;
-    loading.value = true;
-    try {
-      // 1.执行登录接口
-      const { data } = await loginApi({ ...loginForm, password: loginForm.password });
-      userStore.setToken(data.access_token);
+    isLoad.value = true;
+    const { data, code } = await loginApi(formValue);
+    isLoad.value = false;
+    if (code !== 0) return;
+    useUserStore().setToken(data.access_token);
+    await initDynamicRouter();
+    // 3.清空 tabs、keepAlive 数据
+    useTabsStore().setTabs([]);
+    useKeepAliveStore().setKeepAliveName([]);
 
-      // 2.添加动态路由
-      await initDynamicRouter();
-
-      // 3.清空 tabs、keepAlive 数据
-      tabsStore.setTabs([]);
-      keepAliveStore.setKeepAliveName([]);
-
-      // 4.跳转到首页
-      router.push(HOME_URL);
-      // ElNotification({
-      //   title: getTimeState(),
-      //   message: "欢迎登录 Geeker-Admin",
-      //   type: "success",
-      //   duration: 3000
-      // });
-      ElNotification({
-        title: "React 付费版本 🔥🔥🔥",
-        dangerouslyUseHTMLString: true,
-        message: "预览地址：<a href='https://pro.spicyboy.cn'>https://pro.spicyboy.cn</a>",
-        type: "success",
-        duration: 8000
-      });
-    } finally {
-      loading.value = false;
-    }
+    router.push(GLOBAL__CONFIG.homeUrl);
+    // ElNotification({
+    //   title: getTimeState(),
+    //   message: "欢迎登录 Geeker-Admin",
+    //   type: "success",
+    //   duration: 3000
+    // });
   });
 };
 
-// resetForm
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-};
-
-onMounted(() => {
-  // 监听 enter 事件（调用登录）
-  document.onkeydown = (e: KeyboardEvent) => {
-    if (e.code === "Enter" || e.code === "enter" || e.code === "NumpadEnter") {
-      if (loading.value) return;
-      login(loginFormRef.value);
-    }
+function useLoginForm() {
+  const formRef = ref<FormInstance>();
+  const formValue = reactive({ account: '', password: '' });
+  const formRules = readonly({
+    account: [{ required: true, message: '请输入用户名' }],
+    password: [{ required: true, message: '请输入密码' }]
+  });
+  const onReset = () => {
+    formRef.value?.resetFields();
   };
-});
+  return { formValue, formRef, formRules, onReset };
+}
 
-onBeforeUnmount(() => {
-  document.onkeydown = null;
-});
-
-const onSwitch = () => {
-  const globalStore = useGlobalStore();
-  const language = globalStore.language === "zh" ? "en" : "zh";
-  globalStore.setGlobalState("language", language);
-  switchLangData(language);
-};
+function useKeydownSub() {
+  onMounted(() => {
+    document.onkeydown = (e: KeyboardEvent) => {
+      if (['Enter', 'enter', 'NumpadEnter'].includes(e.code)) {
+        !isLoad.value && onLogin();
+      }
+    };
+  });
+  onBeforeUnmount(() => {
+    document.onkeydown = null;
+  });
+}
 </script>
 
 <style scoped lang="scss">
-@import "../index.scss";
+.el-form-item {
+  margin-bottom: 40px;
+}
+.login-btn {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 40px;
+  white-space: nowrap;
+  .el-button {
+    width: 185px;
+  }
+}
 </style>

@@ -8,9 +8,12 @@ export interface Dictionary<T extends DictionaryValue = string> {
   [key: string]: T;
 }
 
-export const getDictionaryName = <T extends DictionaryValue = string>(dictionary: Dictionary<T>, value: T): string => {
+export const getDictionaryName = <T extends DictionaryValue = string>(
+  dictionary: Dictionary<T>,
+  value: T
+): string => {
   const keys = Object.keys(dictionary);
-  return keys.find(key => dictionary[key] === value) || "";
+  return keys.find(key => dictionary[key] === value) || '';
 };
 
 export const formatFormOpts = <T extends DictionaryValue = string>(dictionary: Dictionary<T>) => {

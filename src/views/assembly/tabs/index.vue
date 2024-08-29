@@ -11,31 +11,52 @@
     <el-space class="mb30">
       <el-button type="primary" :icon="Refresh" @click="refresh"> 刷新当前页 </el-button>
       <el-button type="primary" :icon="FullScreen" @click="maximize"> 当前页全屏切换 </el-button>
-      <el-button type="primary" :icon="FullScreen" @click="closeOnSide('left')"> 关闭左侧标签页 </el-button>
-      <el-button type="primary" :icon="FullScreen" @click="closeOnSide('right')"> 关闭右侧标签页 </el-button>
+      <el-button type="primary" :icon="FullScreen" @click="closeOnSide('left')">
+        关闭左侧标签页
+      </el-button>
+      <el-button type="primary" :icon="FullScreen" @click="closeOnSide('right')">
+        关闭右侧标签页
+      </el-button>
       <el-button type="primary" :icon="Remove" @click="closeCurrentTab"> 关闭当前页 </el-button>
       <el-button type="primary" :icon="CircleClose" @click="closeOtherTab"> 关闭其他 </el-button>
       <el-button type="primary" :icon="FolderDelete" @click="closeAllTab"> 全部关闭 </el-button>
     </el-space>
     <el-space class="mb30">
-      <el-button type="info" :icon="Promotion" @click="handleToDetail('1')"> 打开详情页1 </el-button>
-      <el-button type="info" :icon="Promotion" @click="handleToDetail('2')"> 打开详情页2 </el-button>
-      <el-button type="info" :icon="Promotion" @click="handleToDetail('3')"> 打开详情页3 </el-button>
-      <el-button type="info" :icon="Promotion" @click="handleToDetail('4')"> 打开详情页4 </el-button>
-      <el-button type="info" :icon="Promotion" @click="handleToDetail('5')"> 打开详情页5 </el-button>
+      <el-button type="info" :icon="Promotion" @click="handleToDetail('1')">
+        打开详情页1
+      </el-button>
+      <el-button type="info" :icon="Promotion" @click="handleToDetail('2')">
+        打开详情页2
+      </el-button>
+      <el-button type="info" :icon="Promotion" @click="handleToDetail('3')">
+        打开详情页3
+      </el-button>
+      <el-button type="info" :icon="Promotion" @click="handleToDetail('4')">
+        打开详情页4
+      </el-button>
+      <el-button type="info" :icon="Promotion" @click="handleToDetail('5')">
+        打开详情页5
+      </el-button>
     </el-space>
   </div>
 </template>
 
 <script setup lang="ts" name="tabs">
-import { inject, nextTick, ref } from "vue";
-import { HOME_URL } from "@/config";
-import { useRoute, useRouter } from "vue-router";
-import { useTabsStore } from "@/store/modules/tabs";
-import { useGlobalStore } from "@/store/modules/global";
-import { useKeepAliveStore } from "@/store/modules/keepAlive";
-import { Refresh, FullScreen, Remove, CircleClose, FolderDelete, Promotion } from "@element-plus/icons-vue";
-import { ElMessage } from "element-plus";
+import { inject, nextTick, ref } from 'vue';
+import { HOME_URL } from '@/config';
+import { useRoute, useRouter } from 'vue-router';
+import { useTabsStore } from '@/store/modules/tabs';
+import { useGlobalStore } from '@/store/modules/global';
+import { useKeepAliveStore } from '@/store/modules/keepAlive';
+import {
+  Refresh,
+  FullScreen,
+  Remove,
+  CircleClose,
+  FolderDelete,
+  Promotion
+} from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus';
 
 const route = useRoute();
 const router = useRouter();
@@ -44,7 +65,7 @@ const globalStore = useGlobalStore();
 const keepAliveStore = useKeepAliveStore();
 
 // 刷新当前页
-const refreshCurrentPage: Function = inject("refresh") as Function;
+const refreshCurrentPage: Function = inject('refresh') as Function;
 const refresh = () => {
   setTimeout(() => {
     route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.fullPath as string);
@@ -57,15 +78,15 @@ const refresh = () => {
 };
 
 // 设置 Tab 标题
-const tabsTitle = ref("");
+const tabsTitle = ref('');
 const editTabsTitle = () => {
-  if (!tabsTitle.value) return ElMessage.warning("请输入标题");
+  if (!tabsTitle.value) return ElMessage.warning('请输入标题');
   tabStore.setTabsTitle(tabsTitle.value);
 };
 
 // 当前页全屏
 const maximize = () => {
-  globalStore.setGlobalState("maximize", !globalStore.maximize);
+  globalStore.setGlobalState('maximize', !globalStore.maximize);
 };
 
 // 关闭当前页
@@ -80,7 +101,7 @@ const closeOtherTab = () => {
 };
 
 // 关闭两侧
-const closeOnSide = (direction: "left" | "right") => {
+const closeOnSide = (direction: 'left' | 'right') => {
   tabStore.closeTabsOnSide(route.fullPath, direction);
 };
 

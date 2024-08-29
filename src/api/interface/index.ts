@@ -1,9 +1,11 @@
-import type { InternalAxiosRequestConfig, AxiosResponse } from "axios";
+import type { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   loading?: boolean;
 }
-export type InterceptResponse<T = any> = AxiosResponse<Response<T>> & { config: CustomAxiosRequestConfig };
+export type InterceptResponse<T = any> = AxiosResponse<Response<T>> & {
+  config: CustomAxiosRequestConfig;
+};
 
 export interface Response<T = any> {
   code: number;
@@ -12,4 +14,8 @@ export interface Response<T = any> {
   ts: number;
 }
 
-export type Api = <D, T>(url: string, params?: D, config?: CustomAxiosRequestConfig) => Promise<Response<T>>;
+export type Api = <D, T>(
+  url: string,
+  params?: D,
+  config?: CustomAxiosRequestConfig
+) => Promise<Response<T>>;

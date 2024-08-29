@@ -19,11 +19,11 @@
 </template>
 
 <script setup lang="ts" name="layoutVertical">
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-import { useAuthStore } from "@/store/modules/auth";
-import { useGlobalStore } from "@/store/modules/global";
-import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { useAuthStore } from '@/store/modules/auth';
+import { useGlobalStore } from '@/store/modules/global';
+import SubMenu from '@/layouts/components/Menu/SubMenu.vue';
 
 const title = import.meta.env.VITE_GLOB_APP_TITLE;
 
@@ -33,9 +33,11 @@ const globalStore = useGlobalStore();
 const accordion = computed(() => globalStore.accordion);
 const isCollapse = computed(() => globalStore.isCollapse);
 const menuList = computed(() => authStore.showMenuListGet);
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string);
+const activeMenu = computed(
+  () => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string
+);
 </script>
 
 <style scoped lang="scss">
-@import "./index.scss";
+@import './index.scss';
 </style>

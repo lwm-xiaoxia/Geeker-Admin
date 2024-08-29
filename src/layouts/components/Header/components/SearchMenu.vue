@@ -1,7 +1,13 @@
 <template>
   <div class="search-menu">
     <i :class="'iconfont icon-sousuo'" class="toolBar-icon" @click="handleOpen"></i>
-    <el-dialog class="search-dialog" v-model="isShowSearch" :width="600" :show-close="false" top="10vh">
+    <el-dialog
+      class="search-dialog"
+      v-model="isShowSearch"
+      :width="600"
+      :show-close="false"
+      top="10vh"
+    >
       <el-input
         v-model="searchMenu"
         ref="menuInputRef"
@@ -33,31 +39,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick, watch } from "vue";
-import { InputInstance } from "element-plus";
-import { Search } from "@element-plus/icons-vue";
-import { useAuthStore } from "@/store/modules/auth";
-import { useRouter } from "vue-router";
-import { useDebounceFn } from "@vueuse/core";
+import { ref, computed, nextTick, watch } from 'vue';
+import { InputInstance } from 'element-plus';
+import { Search } from '@element-plus/icons-vue';
+import { useAuthStore } from '@/store/modules/auth';
+import { useRouter } from 'vue-router';
+import { useDebounceFn } from '@vueuse/core';
 
 const router = useRouter();
 const authStore = useAuthStore();
 const menuList = computed(() => authStore.flatMenuListGet.filter(item => !item.meta.isHide));
 
-const activePath = ref("");
+const activePath = ref('');
 const mouseoverMenuItem = (menu: Menu.MenuOptions) => {
   activePath.value = menu.path;
 };
 
 const menuInputRef = ref<InputInstance | null>(null);
 const isShowSearch = ref<boolean>(false);
-const searchMenu = ref<string>("");
+const searchMenu = ref<string>('');
 
 watch(isShowSearch, val => {
   if (val) {
-    document.addEventListener("keydown", keyboardOperation);
+    document.addEventListener('keydown', keyboardOperation);
   } else {
-    document.removeEventListener("keydown", keyboardOperation);
+    document.removeEventListener('keydown', keyboardOperation);
   }
 });
 
@@ -80,7 +86,7 @@ const updateSearchList = () => {
           !item.meta?.isHide
       )
     : [];
-  activePath.value = searchList.value.length ? searchList.value[0].path : "";
+  activePath.value = searchList.value.length ? searchList.value[0].path : '';
 };
 
 const debouncedUpdateSearchList = useDebounceFn(updateSearchList, 300);
@@ -102,13 +108,13 @@ const keyPressUpOrDown = (direction: number) => {
 };
 
 const keyboardOperation = (event: KeyboardEvent) => {
-  if (event.key === "ArrowUp") {
+  if (event.key === 'ArrowUp') {
     event.preventDefault();
     keyPressUpOrDown(-1);
-  } else if (event.key === "ArrowDown") {
+  } else if (event.key === 'ArrowDown') {
     event.preventDefault();
     keyPressUpOrDown(1);
-  } else if (event.key === "Enter") {
+  } else if (event.key === 'Enter') {
     event.preventDefault();
     handleClickMenu();
   }
@@ -117,9 +123,9 @@ const keyboardOperation = (event: KeyboardEvent) => {
 const handleClickMenu = () => {
   const menu = searchList.value.find(item => item.path === activePath.value);
   if (!menu) return;
-  if (menu.meta?.isLink) window.open(menu.meta.isLink, "_blank");
+  if (menu.meta?.isLink) window.open(menu.meta.isLink, '_blank');
   else router.push(menu.path);
-  searchMenu.value = "";
+  searchMenu.value = '';
   isShowSearch.value = false;
 };
 </script>

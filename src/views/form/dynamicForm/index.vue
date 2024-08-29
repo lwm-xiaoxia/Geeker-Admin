@@ -33,7 +33,9 @@
       >
         <el-input v-model="domain.value">
           <template #append>
-            <el-button type="danger" plain class="mt-2" @click.prevent="removeDomain(domain)"> Delete </el-button>
+            <el-button type="danger" plain class="mt-2" @click.prevent="removeDomain(domain)">
+              Delete
+            </el-button>
           </template>
         </el-input>
       </el-form-item>
@@ -46,8 +48,8 @@
 </template>
 
 <script setup lang="ts" name="dynamicForm">
-import { reactive, ref } from "vue";
-import type { FormInstance } from "element-plus";
+import { reactive, ref } from 'vue';
+import type { FormInstance } from 'element-plus';
 
 const formRef = ref<FormInstance>();
 const dynamicValidateForm = reactive<{
@@ -57,10 +59,10 @@ const dynamicValidateForm = reactive<{
   domains: [
     {
       key: 1,
-      value: ""
+      value: ''
     }
   ],
-  email: ""
+  email: ''
 });
 
 interface DomainItem {
@@ -78,7 +80,7 @@ const removeDomain = (item: DomainItem) => {
 const addDomain = () => {
   dynamicValidateForm.domains.push({
     key: Date.now(),
-    value: ""
+    value: ''
   });
 };
 
@@ -86,9 +88,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log("submit!");
+      console.log('submit!');
     } else {
-      console.log("error submit!", fields);
+      console.log('error submit!', fields);
     }
   });
 };
@@ -100,5 +102,5 @@ const resetForm = (formEl: FormInstance | undefined) => {
 </script>
 
 <style scoped lang="scss">
-@import "./index.scss";
+@import './index.scss';
 </style>

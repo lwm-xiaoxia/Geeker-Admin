@@ -1,7 +1,7 @@
-import type { App } from "vue";
-import { createRouter, createWebHashHistory, createWebHistory } from "vue-router";
-import { staticRouter, errorRouter } from "./modules/staticRouter";
-import createGrid from "./guard";
+import type { App } from 'vue';
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
+import { staticRouter, errorRouter } from './modules/staticRouter';
+import createGrid from './guard';
 
 const { VITE_ROUTER_MODE, VITE_BASE_URL } = import.meta.env;
 

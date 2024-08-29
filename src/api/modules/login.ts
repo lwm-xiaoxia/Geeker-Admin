@@ -1,14 +1,14 @@
-import { Login } from "../interface";
-import authMenuList from "@/assets/json/authMenuList.json";
-import authButtonList from "@/assets/json/authButtonList.json";
-import http from "@/api";
+import { Login } from '../interface';
+import authMenuList from '@/assets/json/authMenuList.json';
+import authButtonList from '@/assets/json/authButtonList.json';
+import http from '@/api';
 
 /**
  * @name 登录模块
  */
 // 用户登录
 export const loginApi = (params: Login.ReqLoginForm) => {
-  return http.post<Login.ResLogin>("/auth/basic/admin/login", params);
+  return http.post<Login.ResLogin>('/auth/basic/admin/login', params);
 };
 
 // 获取菜单列表
