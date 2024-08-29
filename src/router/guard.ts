@@ -3,12 +3,9 @@ import { useUserStore } from "@/store/modules/user";
 import { useAuthStore } from "@/store/modules/auth";
 import { LOGIN_URL, ROUTER_WHITE_LIST } from "@/config";
 import { initDynamicRouter } from "@/router/modules/dynamicRouter";
-import NProgress from "@/config/nprogress";
+import NProgress from "@/libs/nprogress";
 
 export default function createGuard(router: Router) {
-  /**
-   * @description 路由拦截 beforeEach
-   * */
   router.beforeEach(async (to, from, next) => {
     const userStore = useUserStore();
     const authStore = useAuthStore();

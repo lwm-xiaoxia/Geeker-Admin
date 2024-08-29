@@ -2,19 +2,23 @@ import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, type AxiosRespons
 import { showFullScreenLoading, tryHideFullScreenLoading } from "@/components/Loading/fullScreen";
 import { LOGIN_URL } from "@/config";
 import { ElMessage } from "element-plus";
-import { checkStatus } from "./helper/checkStatus";
+import { getStatusMsg } from "./helper/status";
 import { useUserStore } from "@/store/modules/user";
 import { router } from "@/router";
 import { baseConfig } from "./constant";
-import type { CustomAxiosRequestConfig, Response, Api } from "./interface";
+import type { CustomAxiosRequestConfig, Response } from "./interface";
 
-class RequestHttp {
+class Request {
   instance: AxiosInstance;
   constructor(config: AxiosRequestConfig) {
     this.instance = axios.create(config);
     this.interceptRequest();
     this.interceptResponse();
   }
+
+  static create = (config: AxiosRequestConfig) => {
+    return new Request(config);
+  };
 
   private interceptRequest = () => {
     this.instance.interceptors.request.use(
@@ -53,10 +57,10 @@ class RequestHttp {
         const { response } = error;
         tryHideFullScreenLoading();
         // 请求超时 && 网络错误单独判断，没有 response
-        if (error.message.indexOf("timeout") !== -1) ElMessage.error("请求超时！请您稍后重试");
-        if (error.message.indexOf("Network Error") !== -1) ElMessage.error("网络错误！请您稍后重试");
+        if (error.message.includes("timeout")) ElMessage.error("请求超时！请您稍后重试");
+        if (error.message.includes("Network Error")) ElMessage.error("网络错误！请您稍后重试");
         // 根据服务器响应的错误状态码，做不同的处理
-        if (response) checkStatus(response.status);
+        if (response) ElMessage.error(getStatusMsg(response.status));
         // 服务器结果都没有返回(可能服务器错误可能客户端断网)，断网处理:可以跳转到断网页面
         if (!window.navigator.onLine) router.replace("/500");
         return Promise.reject(error);
@@ -72,4 +76,4 @@ class RequestHttp {
   };
 }
 
-export default new RequestHttp(baseConfig);
+export default Request.create(baseConfig);

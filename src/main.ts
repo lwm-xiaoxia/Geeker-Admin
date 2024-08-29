@@ -14,7 +14,7 @@ import setupStore from "@/store";
 import setLibs from "@/libs";
 import errorHandler from "@/utils/errorHandler";
 
-const setupApp = async () => {
+const setupApp = () => {
   const app = createApp(App);
   // app.config.errorHandler = errorHandler;
 
@@ -30,5 +30,4 @@ const setupApp = async () => {
 
   app.mount("#app");
 };
-
 setupApp();

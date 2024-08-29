@@ -60,8 +60,8 @@ export const useTheme = () => {
   // 设置菜单样式
   const setMenuTheme = () => {
     let type: Theme.ThemeType = "light";
-    if (layout.value === "transverse" && headerInverted.value) type = "inverted";
-    if (layout.value !== "transverse" && asideInverted.value) type = "inverted";
+    // if (layout.value === "transverse" && headerInverted.value) type = "inverted";
+    // if (layout.value !== "transverse" && asideInverted.value) type = "inverted";
     if (isDark.value) type = "dark";
     const theme = menuTheme[type!];
     for (const [key, value] of Object.entries(theme)) {
@@ -72,7 +72,7 @@ export const useTheme = () => {
   // 设置侧边栏样式
   const setAsideTheme = () => {
     let type: Theme.ThemeType = "light";
-    if (asideInverted.value) type = "inverted";
+    // if (asideInverted.value) type = "inverted";
     if (isDark.value) type = "dark";
     const theme = asideTheme[type!];
     for (const [key, value] of Object.entries(theme)) {
@@ -84,7 +84,7 @@ export const useTheme = () => {
   // 设置头部样式
   const setHeaderTheme = () => {
     let type: Theme.ThemeType = "light";
-    if (headerInverted.value) type = "inverted";
+    // if (headerInverted.value) type = "inverted";
     if (isDark.value) type = "dark";
     const theme = headerTheme[type!];
     for (const [key, value] of Object.entries(theme)) {

@@ -25,6 +25,9 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     envDir,
     base: viteEnv.VITE_BASE_URL,
     root,
+    build: createBuildOpts(),
+    server: createServerOpts(viteEnv),
+    plugins: createVitePlugins(viteEnv),
     resolve: {
       alias: {
         "@": resolve(__dirname, "./src"),
@@ -41,11 +44,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         }
       }
     },
-    server: createServerOpts(viteEnv),
-    plugins: createVitePlugins(viteEnv),
     esbuild: {
       pure: viteEnv.VITE_DROP_CONSOLE ? ["console.log", "debugger"] : []
-    },
-    build: createBuildOpts()
+    }
   };
 });
