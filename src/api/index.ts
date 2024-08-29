@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, type AxiosResponse } from 'axios';
 import { showFullScreenLoading, tryHideFullScreenLoading } from '@/components/Loading/fullScreen';
-import { LOGIN_URL } from '@/config';
+import { __GLOBAL__ } from '@/constants/config';
 import { ElMessage } from 'element-plus';
 import { getStatusMsg } from './helper/status';
 import { useUserStore } from '@/store/modules/user';
@@ -44,34 +44,35 @@ class Request {
 
         if ([1001, 1002, 1003, 10047, 1005].includes(data.code)) {
           useUserStore().setToken('');
-          router.replace(LOGIN_URL);
+          router.replace(__GLOBAL__.logonUrl);
           ElMessage.error(data.msg);
         } else if (data.code == 2102) {
           // ElMessage.error(i18n.t2("@core.error_" + data.code));
         } else {
           // ElMessage.error(i18n.t2(data.msg));
         }
-        return Promise.reject(response.data);
+        return Promise.resolve(response.data);
       },
       async (error: AxiosError) => {
         const { response } = error;
         tryHideFullScreenLoading();
         // 请求超时 && 网络错误单独判断，没有 response
         if (error.message.includes('timeout')) ElMessage.error('请求超时！请您稍后重试');
-        if (error.message.includes('Network Error')) ElMessage.error('网络错误！请您稍后重试');
+        else if (error.message.includes('Network Error')) ElMessage.error('网络错误！请您稍后重试');
         // 根据服务器响应的错误状态码，做不同的处理
-        if (response) ElMessage.error(getStatusMsg(response.status));
+        else if (response) ElMessage.error(getStatusMsg(response.status));
         // 服务器结果都没有返回(可能服务器错误可能客户端断网)，断网处理:可以跳转到断网页面
-        if (!window.navigator.onLine) router.replace('/500');
-        return Promise.reject(error);
+        else if (!window.navigator.onLine) router.replace('/500');
+        else ElMessage.error(`响应拦截器捕获到的其他错误: ${error}`);
+        return Promise.resolve({});
       }
     );
   };
 
-  get = <D, T>(url: string, params?: D, config = {} as CustomAxiosRequestConfig) => {
+  get = <D = any, T = any>(url: string, params?: D, config = {} as CustomAxiosRequestConfig) => {
     return this.instance.get<D, Response<T>>(url, { params, ...config });
   };
-  post = <D, T>(url: string, params?: D, config = {} as CustomAxiosRequestConfig) => {
+  post = <D = any, T = any>(url: string, params?: D, config = {} as CustomAxiosRequestConfig) => {
     return this.instance.post<D, Response<T>>(url, params, config);
   };
 }

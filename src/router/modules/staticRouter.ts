@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
-import { HOME_URL, LOGIN_URL } from '@/config';
+import { __GLOBAL__ } from '@/constants/config';
 
 /**
  * staticRouter (静态路由)
@@ -7,12 +7,12 @@ import { HOME_URL, LOGIN_URL } from '@/config';
 export const staticRouter: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: HOME_URL
+    redirect: __GLOBAL__.homeUrl
   },
   {
-    path: LOGIN_URL,
+    path: __GLOBAL__.logonUrl,
     name: 'login',
-    component: () => import('@/views/login/index.vue'),
+    component: () => import('@/views/login/Login.vue'),
     meta: {
       title: '登录'
     }
@@ -21,8 +21,7 @@ export const staticRouter: RouteRecordRaw[] = [
     path: '/layout',
     name: 'layout',
     component: () => import('@/layouts/index.vue'),
-    // component: () => import("@/layouts/indexAsync.vue"),
-    redirect: HOME_URL,
+    redirect: __GLOBAL__.homeUrl,
     children: []
   }
 ];

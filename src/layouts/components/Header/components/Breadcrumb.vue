@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { HOME_URL } from '@/config';
+import { __GLOBAL__ } from '@/constants/config';
 import { useRoute, useRouter } from 'vue-router';
 import { ArrowRight } from '@element-plus/icons-vue';
 import { useAuthStore } from '@/store/modules/auth';
@@ -36,9 +36,9 @@ const breadcrumbList = computed(() => {
   let breadcrumbData =
     authStore.breadcrumbListGet[route.matched[route.matched.length - 1].path] ?? [];
   // 🙅‍♀️不需要首页面包屑可删除以下判断
-  if (breadcrumbData[0].path !== HOME_URL) {
+  if (breadcrumbData[0].path !== __GLOBAL__.homeUrl) {
     breadcrumbData = [
-      { path: HOME_URL, meta: { icon: 'HomeFilled', title: '首页' } },
+      { path: __GLOBAL__.homeUrl, meta: { icon: 'HomeFilled', title: '首页' } },
       ...breadcrumbData
     ];
   }

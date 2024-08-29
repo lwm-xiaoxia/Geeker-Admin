@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { inject, nextTick } from 'vue';
-import { HOME_URL } from '@/config';
+import { __GLOBAL__ } from '@/constants/config';
 import { useTabsStore } from '@/store/modules/tabs';
 import { useGlobalStore } from '@/store/modules/global';
 import { useKeepAliveStore } from '@/store/modules/keepAlive';
@@ -72,7 +72,7 @@ const closeCurrentTab = () => {
 // Close All
 const closeAllTab = () => {
   tabStore.closeMultipleTab();
-  router.push(HOME_URL);
+  router.push(__GLOBAL__.homeUrl);
 };
 </script>
 

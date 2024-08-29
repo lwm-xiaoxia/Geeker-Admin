@@ -6,12 +6,13 @@ export const useUserStore = defineStore({
   id: 'user',
   state: (): UserState => ({
     token: '',
-    userInfo: { name: 'Geeker' }
+    userInfo: { name: 'linwm' }
   }),
   getters: {},
   actions: {
     // Set Token
     setToken(token: string) {
+      console.log('======', token);
       this.token = token;
     },
     // Set setUserInfo

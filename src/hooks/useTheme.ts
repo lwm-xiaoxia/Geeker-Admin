@@ -1,7 +1,7 @@
 import { storeToRefs } from 'pinia';
 import { Theme } from './interface';
 import { ElMessage } from 'element-plus';
-import { DEFAULT_PRIMARY } from '@/config';
+import { __GLOBAL__ } from '@/constants/config';
 import { useGlobalStore } from '@/store/modules/global';
 import { getLightColor, getDarkColor } from '@/utils/color';
 import { menuTheme } from '@/styles/theme/menu';
@@ -13,8 +13,7 @@ import { headerTheme } from '@/styles/theme/header';
  * */
 export const useTheme = () => {
   const globalStore = useGlobalStore();
-  const { primary, isDark, isGrey, isWeak, layout, asideInverted, headerInverted } =
-    storeToRefs(globalStore);
+  const { primary, isDark, isGrey, isWeak } = storeToRefs(globalStore);
 
   // 切换暗黑模式 ==> 同时修改主题颜色、侧边栏、头部颜色
   const switchDark = () => {
@@ -29,8 +28,8 @@ export const useTheme = () => {
   // 修改主题颜色
   const changePrimary = (val: string | null) => {
     if (!val) {
-      val = DEFAULT_PRIMARY;
-      ElMessage({ type: 'success', message: `主题颜色已重置为 ${DEFAULT_PRIMARY}` });
+      val = __GLOBAL__.theme;
+      ElMessage({ type: 'success', message: `主题颜色已重置为 ${__GLOBAL__.theme}` });
     }
     // 计算主题颜色变化
     document.documentElement.style.setProperty('--el-color-primary', val);

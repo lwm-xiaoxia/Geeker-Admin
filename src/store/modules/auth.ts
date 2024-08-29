@@ -28,13 +28,13 @@ export const useAuthStore = defineStore({
   actions: {
     // Get AuthButtonList
     async getAuthButtonList() {
-      const { data } = await getAuthButtonListApi();
-      this.authButtonList = data;
+      // const { data } = await getAuthButtonListApi();
+      // this.authButtonList = data;
     },
     // Get AuthMenuList
     async getAuthMenuList() {
-      const { data } = await getAuthMenuListApi();
-      this.authMenuList = data;
+      // const { data } = await getAuthMenuListApi();
+      // this.authMenuList = data;
     },
     // Set RouteName
     async setRouteName(name: string) {

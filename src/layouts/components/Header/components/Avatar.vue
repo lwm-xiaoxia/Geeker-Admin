@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { LOGIN_URL } from '@/config';
+import { __GLOBAL__ } from '@/constants/config';
 import { useRouter } from 'vue-router';
 import { logoutApi } from '@/api/modules/login';
 import { useUserStore } from '@/store/modules/user';
@@ -50,7 +50,7 @@ const logout = () => {
     userStore.setToken('');
 
     // 3.重定向到登陆页
-    router.replace(LOGIN_URL);
+    router.replace(__GLOBAL__.logonUrl);
     ElMessage.success('退出登录成功！');
   });
 };

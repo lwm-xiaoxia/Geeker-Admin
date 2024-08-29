@@ -8,7 +8,7 @@
       <div class="login-form">
         <div class="login-logo">
           <img class="login-icon" src="@/assets/images/logo.svg" alt="" />
-          <h2 class="logo-text">Geeker-Admin</h2>
+          <h2 class="logo-text">{{ __GLOBAL__.appName }}</h2>
         </div>
         <LoginForm />
       </div>
@@ -17,6 +17,7 @@
 </template>
 
 <script setup lang="ts" name="login">
+import { __GLOBAL__ } from '@/constants/config';
 import LoginForm from './components/LoginForm.vue';
 import SwitchDark from '@/components/SwitchDark/index.vue';
 </script>

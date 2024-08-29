@@ -63,7 +63,7 @@ import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useTheme } from '@/hooks/useTheme';
 import { useGlobalStore } from '@/store/modules/global';
-import { DEFAULT_PRIMARY } from '@/config';
+import { __GLOBAL__ } from '@/constants/config';
 import mittBus from '@/utils/mittBus';
 import SwitchDark from '@/components/SwitchDark/index.vue';
 
@@ -86,7 +86,7 @@ const {
 
 // 预定义主题颜色
 const colorList = [
-  DEFAULT_PRIMARY,
+  __GLOBAL__.theme,
   '#daa96e',
   '#0c819f',
   '#409eff',

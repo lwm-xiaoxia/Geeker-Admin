@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { getBrowserLang } from '@/utils';
 import { GlobalState } from '@/store/interface';
-import { DEFAULT_PRIMARY } from '@/config';
+import { __GLOBAL__ } from '@/constants/config';
 import piniaPersistConfig from '@/store/helper/persist';
 
 export const useGlobalStore = defineStore({
@@ -13,7 +13,7 @@ export const useGlobalStore = defineStore({
     // 当前页面是否全屏
     maximize: false,
     // 主题颜色
-    primary: DEFAULT_PRIMARY,
+    primary: __GLOBAL__.theme,
 
     // 深色模式
     isDark: false,

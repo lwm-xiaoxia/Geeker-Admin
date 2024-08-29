@@ -33,10 +33,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, readonly, onMounted, onBeforeUnmount } from 'vue';
+import { ref, reactive, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { GLOBAL__CONFIG } from '@/constants/config';
+import { __GLOBAL__ } from '@/constants/config';
+import { getTimeState } from '@/utils';
 import { ElNotification } from 'element-plus';
 import { loginApi } from '@/api/modules/login';
 import { useUserStore } from '@/store/modules/user';
@@ -46,48 +47,53 @@ import { useKeepAliveStore } from '@/store/modules/keepAlive';
 import { initDynamicRouter } from '@/router/modules/dynamicRouter';
 import { CircleClose, UserFilled } from '@element-plus/icons-vue';
 import type { ElForm } from 'element-plus';
-// import md5 from "md5";
+
 type FormInstance = InstanceType<typeof ElForm>;
 
 const router = useRouter();
+const { formValue, formRef, formRules, onReset } = useForm();
+const { isLoad, onLogin } = useLogin();
 useKeydownSub();
-const { formValue, formRef, formRules, onReset } = useLoginForm();
 
-const isLoad = ref(false);
-const onLogin = () => {
-  formRef.value?.validate(async valid => {
-    if (!valid) return;
-    isLoad.value = true;
-    const { data, code } = await loginApi(formValue);
-    isLoad.value = false;
-    if (code !== 0) return;
-    useUserStore().setToken(data.access_token);
-    await initDynamicRouter();
-    // 3.清空 tabs、keepAlive 数据
-    useTabsStore().setTabs([]);
-    useKeepAliveStore().setKeepAliveName([]);
-
-    router.push(GLOBAL__CONFIG.homeUrl);
-    // ElNotification({
-    //   title: getTimeState(),
-    //   message: "欢迎登录 Geeker-Admin",
-    //   type: "success",
-    //   duration: 3000
-    // });
-  });
-};
-
-function useLoginForm() {
+function useForm() {
   const formRef = ref<FormInstance>();
   const formValue = reactive({ account: '', password: '' });
-  const formRules = readonly({
+  const formRules = {
     account: [{ required: true, message: '请输入用户名' }],
     password: [{ required: true, message: '请输入密码' }]
-  });
+  };
   const onReset = () => {
     formRef.value?.resetFields();
   };
   return { formValue, formRef, formRules, onReset };
+}
+
+function useLogin() {
+  const isLoad = ref(false);
+  const onLogin = () => {
+    formRef.value?.validate(async valid => {
+      if (!valid) return;
+      isLoad.value = true;
+      const { data, code } = await loginApi(formValue);
+      isLoad.value = false;
+      if (code !== 0) return;
+      useUserStore().setToken(data.token);
+      loginInit();
+    });
+  };
+  const loginInit = async () => {
+    await initDynamicRouter();
+    useTabsStore().setTabs([]);
+    useKeepAliveStore().setKeepAliveName([]);
+    router.push(__GLOBAL__.homeUrl);
+    ElNotification({
+      title: getTimeState(),
+      message: `欢迎登录${__GLOBAL__.appName}`,
+      type: 'success',
+      duration: 3000
+    });
+  };
+  return { isLoad, onLogin };
 }
 
 function useKeydownSub() {
