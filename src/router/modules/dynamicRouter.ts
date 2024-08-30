@@ -1,54 +1,51 @@
 import { router } from '@/router/index';
 import { __GLOBAL__ } from '@/constants/config';
-import { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
 import { ElNotification } from 'element-plus';
 import { useUserStore } from '@/store/modules/user';
 import { useAuthStore } from '@/store/modules/auth';
+import type { AuthItem } from '@/store/interface';
+import { getTarget } from '../constants';
+import type { MapItem } from '../interface';
 
 // 引入 views 文件夹下所有 vue 文件
-const modules = import.meta.glob('@/views/**/index.vue');
+// const modules = import.meta.glob('@/views/**/index.vue');
+
+const createRouterItem = (authItem: AuthItem, item?: MapItem): RouteRecordRaw => {
+  const { permName, router } = authItem;
+  const { component, name, ...meta } = item || {};
+  return {
+    name,
+    path: router,
+    component: component || (() => import('@/views/empty/Empty.vue')),
+    meta: { ...meta, title: permName }
+  };
+};
 
 /**
  * @description 初始化动态路由
  */
 export const initDynamicRouter = async () => {
-  const userStore = useUserStore();
-  const authStore = useAuthStore();
-
-  try {
-    // 1.获取菜单列表 && 按钮权限列表
-    await authStore.getAuthMenuList();
-    await authStore.getAuthButtonList();
-
-    // 2.判断当前用户有没有菜单权限
-    if (!authStore.authMenuListGet.length) {
-      ElNotification({
-        title: '无权限访问',
-        message: '当前账号无任何菜单权限，请联系系统管理员！',
-        type: 'warning',
-        duration: 3000
-      });
-      userStore.setToken('');
-      router.replace(__GLOBAL__.logonUrl);
-      return Promise.reject('No permission');
-    }
-
-    // 3.添加动态路由
-    authStore.flatMenuListGet.forEach(item => {
-      item.children && delete item.children;
-      if (item.component && typeof item.component == 'string') {
-        item.component = modules['/src/views' + item.component + '.vue'];
-      }
-      if (item.meta.isFull) {
-        router.addRoute(item as unknown as RouteRecordRaw);
-      } else {
-        router.addRoute('layout', item as unknown as RouteRecordRaw);
-      }
+  await useAuthStore().fetchAuthList();
+  const { authList } = useAuthStore();
+  if (!authList.length) {
+    ElNotification({
+      title: '无权限访问',
+      message: '当前账号无任何菜单权限，请联系系统管理员！',
+      type: 'warning',
+      duration: 3000
     });
-  } catch (error) {
-    // 当按钮 || 菜单请求出错时，重定向到登陆页
-    userStore.setToken('');
+    useUserStore().setToken('');
     router.replace(__GLOBAL__.logonUrl);
-    return Promise.reject(error);
+    return Promise.reject('权限列表为空');
   }
+  authList.forEach(item => {
+    const target = getTarget(item.id);
+    const routerItem = createRouterItem(item, target);
+    if (target?.isFull) {
+      router.addRoute(routerItem);
+    } else {
+      router.addRoute('layout', routerItem);
+    }
+  });
 };

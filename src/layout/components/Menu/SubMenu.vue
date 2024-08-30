@@ -1,20 +1,20 @@
 <template>
-  <template v-for="subItem in menuList" :key="subItem.path">
-    <el-sub-menu v-if="subItem.children?.length" :index="subItem.path">
+  <template v-for="subItem in menuList" :key="subItem.router">
+    <el-sub-menu v-if="subItem.children?.length" :index="subItem.router">
       <template #title>
-        <el-icon v-if="subItem.meta.icon">
-          <component :is="subItem.meta.icon"></component>
+        <el-icon v-if="subItem.icon">
+          <component :is="subItem.icon"></component>
         </el-icon>
-        <span class="sle">{{ subItem.meta.title }}</span>
+        <span class="sle">{{ subItem.permName }}</span>
       </template>
       <SubMenu :menu-list="subItem.children" />
     </el-sub-menu>
-    <el-menu-item v-else :index="subItem.path" @click="handleClickMenu(subItem)">
-      <el-icon v-if="subItem.meta.icon">
-        <component :is="subItem.meta.icon"></component>
+    <el-menu-item v-else :index="subItem.router" @click="handleClickMenu(subItem)">
+      <el-icon v-if="subItem.icon">
+        <component :is="subItem.icon"></component>
       </el-icon>
       <template #title>
-        <span class="sle">{{ subItem.meta.title }}</span>
+        <span class="sle">{{ subItem.permName }}</span>
       </template>
     </el-menu-item>
   </template>
@@ -22,17 +22,18 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import type { AuthItem } from '@/store/interface';
 
-defineProps<{ menuList: Menu.MenuOptions[] }>();
+defineProps<{ menuList: AuthItem[] }>();
 
 const router = useRouter();
-const handleClickMenu = (subItem: Menu.MenuOptions) => {
-  if (subItem.meta.isLink) return window.open(subItem.meta.isLink, '_blank');
-  router.push(subItem.path);
+const handleClickMenu = (subItem: AuthItem) => {
+  // if (subItem.meta.isLink) return window.open(subItem.meta.isLink, '_blank');
+  router.push(subItem.router);
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .el-sub-menu .el-sub-menu__title:hover {
   color: var(--el-menu-hover-text-color) !important;
   background-color: transparent !important;

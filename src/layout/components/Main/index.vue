@@ -23,10 +23,10 @@ import { useDebounceFn } from '@vueuse/core';
 import { useGlobalStore } from '@/store/modules/global';
 import { useKeepAliveStore } from '@/store/modules/keepAlive';
 import Maximize from './components/Maximize.vue';
-import Tabs from '@/layouts/components/Tabs/index.vue';
+import Tabs from '@/layout/components/Tabs/index.vue';
 
 const globalStore = useGlobalStore();
-const { maximize, isCollapse, layout, tabs } = storeToRefs(globalStore);
+const { maximize, isCollapse, tabs } = storeToRefs(globalStore);
 
 const keepAliveStore = useKeepAliveStore();
 const { keepAliveName } = storeToRefs(keepAliveStore);
@@ -56,16 +56,6 @@ watch(
     const app = document.getElementById('app') as HTMLElement;
     if (maximize.value) app.classList.add('main-maximize');
     else app.classList.remove('main-maximize');
-  },
-  { immediate: true }
-);
-
-// 监听布局变化，在 body 上添加相对应的 layout class
-watch(
-  () => layout.value,
-  () => {
-    const body = document.body as HTMLElement;
-    body.setAttribute('class', layout.value);
   },
   { immediate: true }
 );

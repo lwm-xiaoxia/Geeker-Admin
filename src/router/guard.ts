@@ -31,7 +31,7 @@ export default function createGuard(router: Router) {
     if (!userStore.token) return next({ path: __GLOBAL__.logonUrl, replace: true });
 
     // 6.如果没有菜单列表，就重新请求菜单列表并添加动态路由
-    if (!authStore.authMenuListGet.length) {
+    if (!authStore.authList.length) {
       await initDynamicRouter();
       return next({ ...to, replace: true });
     }

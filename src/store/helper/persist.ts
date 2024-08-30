@@ -16,3 +16,33 @@ const piniaPersistConfig = (key: string, paths?: string[]) => {
 };
 
 export default piniaPersistConfig;
+
+interface TreeItem {
+  id: number;
+  parentId: number;
+  [key: string]: any;
+}
+
+export const getTree = (items: TreeItem[], rootId: number): TreeItem[] => {
+  const result: TreeItem[] = [];
+  const itemMap: { [key: number]: TreeItem } = {};
+
+  // 建立一个映射表
+  items.forEach(item => {
+    itemMap[item.id] = { ...item, children: [] };
+  });
+
+  items.forEach(item => {
+    const currentItem = itemMap[item.id];
+    if (item.parentId === rootId) {
+      result.push(currentItem);
+    } else {
+      const parentItem = itemMap[item.parentId];
+      if (parentItem) {
+        parentItem.children.push(currentItem);
+      }
+    }
+  });
+
+  return result;
+};

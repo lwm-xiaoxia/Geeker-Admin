@@ -1,6 +1,6 @@
 <!-- 纵向布局 -->
 <template>
-  <div class="aside-box" :style="{ width: isCollapse ? '65px' : '210px' }">
+  <div class="aside-box" :style="{ width: isCollapse ? '65px' : '260px' }">
     <div class="logo flx-center">
       <span v-show="!isCollapse" class="logo-text">{{ title }}</span>
     </div>
@@ -12,7 +12,7 @@
         :unique-opened="accordion"
         :collapse-transition="false"
       >
-        <SubMenu :menu-list="menuList" />
+        <SubMenu :menu-list="menuListTree" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -21,18 +21,18 @@
 <script setup lang="ts" name="layoutVertical">
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/store/modules/auth';
 import { useGlobalStore } from '@/store/modules/global';
-import SubMenu from '@/layouts/components/Menu/SubMenu.vue';
+import SubMenu from '@/layout/components/Menu/SubMenu.vue';
 
 const title = import.meta.env.VITE_GLOB_APP_TITLE;
 
 const route = useRoute();
-const authStore = useAuthStore();
+const { menuListTree } = storeToRefs(useAuthStore());
 const globalStore = useGlobalStore();
 const accordion = computed(() => globalStore.accordion);
 const isCollapse = computed(() => globalStore.isCollapse);
-const menuList = computed(() => authStore.showMenuListGet);
 const activeMenu = computed(
   () => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string
 );

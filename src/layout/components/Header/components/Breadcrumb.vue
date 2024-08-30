@@ -2,16 +2,16 @@
   <div :class="['breadcrumb-box mask-image', !globalStore.breadcrumbIcon && 'no-icon']">
     <el-breadcrumb :separator-icon="ArrowRight">
       <transition-group name="breadcrumb">
-        <el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="item.path">
+        <el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="item.router">
           <div
             class="el-breadcrumb__inner is-link"
-            :class="{ 'item-no-icon': !item.meta.icon }"
+            :class="{ 'item-no-icon': !item.icon }"
             @click="onBreadcrumbClick(item, index)"
           >
-            <el-icon v-if="item.meta.icon && globalStore.breadcrumbIcon" class="breadcrumb-icon">
-              <component :is="item.meta.icon"></component>
+            <el-icon v-if="item.icon && globalStore.breadcrumbIcon" class="breadcrumb-icon">
+              <component :is="item.icon"></component>
             </el-icon>
-            <span class="breadcrumb-title">{{ item.meta.title }}</span>
+            <span class="breadcrumb-title">{{ item.permName }}</span>
           </div>
         </el-breadcrumb-item>
       </transition-group>
@@ -43,6 +43,7 @@ const breadcrumbList = computed(() => {
     ];
   }
   return breadcrumbData;
+  // return authStore.authListTree;
 });
 
 // Click Breadcrumb

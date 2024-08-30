@@ -45,9 +45,21 @@ export interface AuthState {
     [key: string]: string[];
   };
   authMenuList: Menu.MenuOptions[];
+  authList: AuthItem[];
 }
 
 /* KeepAliveState */
 export interface KeepAliveState {
   keepAliveName: string[];
+}
+
+export interface AuthItem {
+  id: number;
+  router: string; // 地址
+  permCode: string;
+  permLevel: 1 | 2 | 3;
+  permName: string;
+  icon?: string;
+  isHide?: boolean;
+  children?: AuthItem[];
 }

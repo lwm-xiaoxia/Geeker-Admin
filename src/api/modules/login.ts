@@ -7,7 +7,10 @@ import http from '@/api';
  */
 // 用户登录
 export const loginApi = (params: Login.ReqLoginForm) => {
-  return http.post<Login.ResLogin>('/auth/basic/admin/login', params);
+  return http.post('/auth/basic/admin/login', params);
+};
+export const authListApi = () => {
+  return http.get('/admin/sys/permission/my/perms');
 };
 
 // 用户退出登录

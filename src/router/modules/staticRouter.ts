@@ -10,17 +10,21 @@ export const staticRouter: RouteRecordRaw[] = [
     redirect: __GLOBAL__.homeUrl
   },
   {
+    name: 'home',
+    path: __GLOBAL__.homeUrl,
+    component: () => import('@/views/home/Home.vue'),
+    meta: { title: '首页' }
+  },
+  {
     path: __GLOBAL__.logonUrl,
     name: 'login',
     component: () => import('@/views/login/Login.vue'),
-    meta: {
-      title: '登录'
-    }
+    meta: { title: '登录' }
   },
   {
     path: '/layout',
     name: 'layout',
-    component: () => import('@/layouts/index.vue'),
+    component: () => import('@/layout/index.vue'),
     redirect: __GLOBAL__.homeUrl,
     children: []
   }
@@ -54,7 +58,6 @@ export const errorRouter = [
       title: '500页面'
     }
   },
-  // Resolve refresh page, route warnings
   {
     path: '/:pathMatch(.*)*',
     component: () => import('@/components/ErrorMessage/404.vue')
